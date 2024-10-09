@@ -7,7 +7,7 @@ const {
   acceptAssignment,
   rejectAssignment,
 } = require("../controllers/adminController");
-
+const auth = require("../middleware/auth");
 const router = express.Router();
 
 // Route for admin registration
@@ -23,21 +23,21 @@ router.post("/login", loginAdmin);
 // Route for admin logout
 // @route   POST /api/admin/logout
 // @desc    Log out a logged-in admin and clear the token
-router.post("/logout", logoutAdmin);
+router.post("/logout", auth("admin"), logoutAdmin);
 
 // Route to view assignments tagged to the logged-in admin
 // @route   GET /api/admin/assignments
 // @desc    View all assignments assigned to the current admin
-router.get("/assignments", getAssignments);
+router.get("/assignments", auth("admin"), getAssignments);
 
 // Route to accept an assignment
 // @route   POST /api/admin/assignment/:id/accept
 // @desc    Accept a specific assignment by ID
-router.post("/assignment/:id/accept", acceptAssignment);
+router.post("/assignment/:id/accept", auth("admin"), acceptAssignment);
 
 // Route to reject an assignment
 // @route   POST /api/admin/assignment/:id/reject
 // @desc    Reject a specific assignment by ID
-router.post("/assignment/:id/reject", rejectAssignment);
+router.post("/assignment/:id/reject", auth("admin"), rejectAssignment);
 
 module.exports = router;
