@@ -79,7 +79,22 @@ const logoutUser = (req, res) => {
 };
 
 // Upload an assignment
-const uploadAssignment = async (req, res) => {};
+const uploadAssignment = async (req, res) => {
+  try {
+    const { task, admin } = req.body;
+
+    const newAssignment = new Assignment({
+      userId: req.user.id,
+      task,
+      admin,
+    });
+
+    await newAssignment.save();
+    res.status(201).json({ message: "Assignment uploaded successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
 
 // Fetch all admins
 const getAllAdmins = async (req, res) => {};
