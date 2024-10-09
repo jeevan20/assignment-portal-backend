@@ -11,6 +11,7 @@ app.use(express.urlencoded({ extended: true }));
 connectDb();
 
 app.use("/api/user", userRoutes);
+app.use("/api/admin", adminRoutes);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
