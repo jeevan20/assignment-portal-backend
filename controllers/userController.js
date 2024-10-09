@@ -97,7 +97,19 @@ const uploadAssignment = async (req, res) => {
 };
 
 // Fetch all admins
-const getAllAdmins = async (req, res) => {};
+const getAllAdmins = async (req, res) => {
+  try {
+    const admins = await Admin.find({ role: "admin" }, { password: 0 });
+
+    if (admins.length === 0) {
+      return res.status(404).json({ message: "No admins found" });
+    }
+
+    res.status(200).json(admins);
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
 
 module.exports = {
   registerUser,
