@@ -8,16 +8,21 @@ const {
   getAllAdmins,
 } = require("../controllers/userController");
 const auth = require("../middleware/auth");
+const {
+  registerValidation,
+  loginValidation,
+  validate,
+} = require("../utils/userValidation");
 
 // Route for user registration
 // @route   POST /api/user/register
 // @desc    Register a new user
-router.post("/register", registerUser);
+router.post("/register", registerValidation, validate, registerUser);
 
 // Route for user login
 // @route   POST /api/user/login
 // @desc    Log in as a user
-router.post("/login", loginUser);
+router.post("/login", loginValidation, validate, loginUser);
 
 // Route for user logout
 // @route   POST /api/user/logout

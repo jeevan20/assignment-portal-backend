@@ -9,16 +9,21 @@ const {
 } = require("../controllers/adminController");
 const auth = require("../middleware/auth");
 const router = express.Router();
+const {
+  registerValidation,
+  loginValidation,
+  validate,
+} = require("../utils/userValidation");
 
 // Route for admin registration
 // @route   POST /api/admin/register
 // @desc    Register a new admin
-router.post("/register", registerAdmin);
+router.post("/register", registerValidation, validate, registerAdmin);
 
 // Route for admin login
 // @route   POST /api/admin/login
 // @desc    Log in as an admin
-router.post("/login", loginAdmin);
+router.post("/login", loginValidation, validate, loginAdmin);
 
 // Route for admin logout
 // @route   POST /api/admin/logout
