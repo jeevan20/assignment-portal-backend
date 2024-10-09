@@ -89,7 +89,32 @@ const logoutAdmin = (req, res) => {
 };
 
 // Fetch assignments for admin
-const getAssignments = async (req, res) => {};
+const getAssignments = async (req, res) => {
+  try {
+    const admin = await Admin.findOne({ _id: req.user.id });
+    const assignments = await Assignment.find({
+      admin: admin.username,
+    }).populate("userId", "username");
+
+    if (!assignments.length) {
+      return res.status(404).json({ message: "No assignments found" });
+    }
+
+    const formattedAssignments = assignments.map((assignment) => ({
+      _id: assignment._id,
+      username: assignment.userId.username,
+      task: assignment.task,
+      admin: assignment.admin,
+      status: assignment.status,
+      createdAt: assignment.createdAt,
+      updatedAt: assignment.updatedAt,
+    }));
+
+    res.status(200).json(formattedAssignments);
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
 
 // Accept an assignment
 const acceptAssignment = async (req, res) => {};
