@@ -117,10 +117,32 @@ const getAssignments = async (req, res) => {
 };
 
 // Accept an assignment
-const acceptAssignment = async (req, res) => {};
+const acceptAssignment = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Update assignment status to accepted
+    await Assignment.findByIdAndUpdate(id, { status: "accepted" });
+
+    res.status(200).json({ message: "Assignment accepted" });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
 
 // Reject an assignment
-const rejectAssignment = async (req, res) => {};
+const rejectAssignment = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Update assignment status to rejected
+    await Assignment.findByIdAndUpdate(id, { status: "rejected" });
+
+    res.status(200).json({ message: "Assignment rejected" });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
 
 // Export functions
 module.exports = {
