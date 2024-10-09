@@ -1,0 +1,18 @@
+const express = require("express");
+const { connectDb } = require("./config/db");
+require("dotenv").config();
+
+// Initialize Express App
+const app = express();
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// connect to DB
+connectDb();
+
+app.get("/hello", (req, res) => {
+  res.send("hello world");
+});
+
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
